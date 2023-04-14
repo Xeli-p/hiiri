@@ -12,8 +12,14 @@ var isLeft = false; // Flag to check if the mouse has moved left
 var isKeyDownA = false; // Flags to check if the 'a' or 'd' keys are pressed
 var isKeyDownD = false;
 var isRight = false;
+var numBlackLines = 0; // Counter for black lines
+var numGreenLines = 0; // Counter for green lines
 var color = '#000'; // Set the initial color to black
-var prevLine = null;
+
+// Add a div element to display the counter
+var counter = document.createElement('div');
+counter.id = 'counter';
+document.body.appendChild(counter);
 
 canvas.addEventListener('mousemove', function(e) {
     if (e.clientX < mouse.x) {
@@ -22,7 +28,7 @@ canvas.addEventListener('mousemove', function(e) {
     } else if (e.clientX > mouse.x) {
         isRight = true;
         isLeft = false;
-    } else if (e.clientX = mouse.x) {
+    } else  {
         isRight = false;
         isLeft = false;
     }
@@ -60,11 +66,11 @@ function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     ctx.lineWidth = 20;
-    ctx.lineJoin = "miter"; // Set the line join style to round
+    ctx.lineJoin = "round"; // Set the line join style to round
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
-    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) && (isLeft || isRight)) {
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) ) {
         color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
     } else {
         color = '#000'; // Otherwise, set the color back to black
@@ -76,34 +82,37 @@ function animate() {
         y: 0,
         color: color
     };
-    lines.unshift(newLine);
 
-    // Find the minimum y value of the lines drawn
-    var minY = canvas.height;
-
-    for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        if (line.y < minY) {
-            minY = line.y;
-        }
+    if (newLine.color === '#0f0') {
+        numGreenLines++;
+    } else {
+        numBlackLines++;
     }
+
+    lines.unshift(newLine);
 
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        line.y += 3; // Update the vertical position of the line
+        line.y += 4; // Update the vertical position of the line
 
         if (i > 0) {
             var prevLine = lines[i - 1];
             ctx.beginPath();
-            ctx.moveTo(prevLine.x, prevLine.y);
+            ctx.lineTo(prevLine.x, prevLine.y);
             ctx.lineTo(line.x, line.y);
+            ctx.lineJoin = 'round';
+            ctx.lineCap = "round";
             ctx.strokeStyle = prevLine.color;
             ctx.stroke();
         }
         prevLine = line; // Save the current line as the previous line for the next iteration
 
     }
+
+const ratio = numBlackLines / numGreenLines
+    console.log({ratio})
+
 
     // Remove the lines that have gone off the top of the canvas
     if (lines.length > 700) {
