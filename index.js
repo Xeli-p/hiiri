@@ -1,7 +1,7 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight - 100adadadad;
+canvas.height = window.innerHeight - 100;
 
 var lines = []; // Array to store the previous lines
 var mouse = {
