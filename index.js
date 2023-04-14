@@ -16,6 +16,7 @@ var numBlackLines = 0; // Counter for black lines
 var numGreenLines = 0; // Counter for green lines
 var color = '#000'; // Set the initial color to black
 
+
 // Add a div element to display the counter
 var counter = document.createElement('div');
 counter.id = 'counter';
@@ -62,6 +63,11 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
+function drawObject() {
+    ctx.fillStyle = '#f00'; // Set the fill color to red
+    ctx.fillRect(object.x, object.y, 50, 50); // Draw a square at the object's position
+}
+
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
@@ -79,7 +85,7 @@ function animate() {
     // Create a new line at the top of the canvas
     var newLine = {
         x: mouse.x,
-        y: 0,
+        y: canvas.height/3,
         color: color
     };
 
@@ -107,18 +113,16 @@ function animate() {
             ctx.stroke();
         }
         prevLine = line; // Save the current line as the previous line for the next iteration
-
     }
 
-const ratio = numBlackLines / numGreenLines
-    console.log({ratio})
+    // Draw the object once per frame
 
+    const ratio = numBlackLines / numGreenLines
 
     // Remove the lines that have gone off the top of the canvas
     if (lines.length > 700) {
         lines.pop();
     }
-
 }
 
 animate();
