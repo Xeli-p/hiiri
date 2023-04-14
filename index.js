@@ -64,7 +64,7 @@ function animate() {
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
-    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) && (isLeft || isRightad)) {
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) && (isLeft || isRight)) {
         color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
     } else {
         color = '#000'; // Otherwise, set the color back to black
