@@ -1,7 +1,7 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight - 100adadadad;
 
 var lines = []; // Array to store the previous lines
 var mouse = {
@@ -14,7 +14,7 @@ var isKeyDownD = false;
 var isRight = false;
 var numBlackLines = 0; // Counter for black lines
 var numGreenLines = 0; // Counter for green lines
-var color = '#000'; // Set the initial color to black
+var color = '#0f0'; // Set the initial color to black
 
 
 // Add a div element to display the counter
@@ -63,10 +63,6 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-function drawObject() {
-    ctx.fillStyle = '#f00'; // Set the fill color to red
-    ctx.fillRect(object.x, object.y, 50, 50); // Draw a square at the object's position
-}
 
 function animate() {
     requestAnimationFrame(animate);
@@ -76,16 +72,19 @@ function animate() {
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
-    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) ) {
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) || (isRight === isLeft)) {
         color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
     } else {
         color = '#000'; // Otherwise, set the color back to black
     }
 
+    // Update the counter with the current count of black and green lines
+    counter.innerHTML = "Black lines: " + numBlackLines + "<br>Green lines: " + numGreenLines + "<br>Sync%: " + ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
+
     // Create a new line at the top of the canvas
     var newLine = {
         x: mouse.x,
-        y: canvas.height/3,
+        y: canvas.height/8,
         color: color
     };
 
@@ -118,6 +117,7 @@ function animate() {
     // Draw the object once per frame
 
     const ratio = numBlackLines / numGreenLines
+
 
     // Remove the lines that have gone off the top of the canvas
     if (lines.length > 700) {
