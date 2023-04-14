@@ -22,6 +22,9 @@ canvas.addEventListener('mousemove', function(e) {
     } else if (e.clientX > mouse.x) {
         isRight = true;
         isLeft = false;
+    } else if (e.clientX = mouse.x) {
+        isRight = false;
+        isLeft = false;
     }
     mouse.x = e.clientX;
 });
@@ -56,12 +59,12 @@ document.addEventListener('keyup', function(event) {
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    ctx.lineWidth = 40;
+    ctx.lineWidth = 20;
     ctx.lineJoin = "miter"; // Set the line join style to round
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
-    if ((isKeyDownA && isLeft) || (isKeyDownD && isRight)) {
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) && (isLeft || isRightad)) {
         color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
     } else {
         color = '#000'; // Otherwise, set the color back to black
@@ -88,7 +91,7 @@ function animate() {
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        line.y += 7; // Update the vertical position of the line
+        line.y += 3; // Update the vertical position of the line
 
         if (i > 0) {
             var prevLine = lines[i - 1];
