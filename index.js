@@ -106,7 +106,7 @@ function animate() {
     if (lines.length > 700) {
         lines.pop();
     }
-    adada
+
 }
 
 animate();
