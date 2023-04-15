@@ -71,11 +71,13 @@ function animate() {
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
-    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD) || (isRight === isLeft)) {
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && (!(isKeyDownA && isKeyDownD) || (isRight === isLeft))) {
         color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
     } else {
         color = '#000'; // Otherwise, set the color back to black
     }
+
+    console.log(isLeft, isRight)
 
     // Update the counter with the current count of black and green lines
     var pos = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
@@ -90,8 +92,7 @@ function animate() {
         y: canvas.height/8,
         color: color
     };
-
-    console.log(mouse.x, mouse.y);
+    
 
     if (newLine.color === '#0f0') {
         numGreenLines++;
