@@ -14,7 +14,7 @@ var isKeyDownD = false;
 var isRight = false;
 var numBlackLines = 0; // Counter for black lines
 var numGreenLines = 0; // Counter for green lines
-var color = '#A94600FF'; // Set the initial color to black
+var color = '#0f0'; // Set the initial color to green
 
 
 // Add a div element to display the counter
@@ -29,7 +29,7 @@ canvas.addEventListener('mousemove', function(e) {
     } else if (e.clientX > mouse.x) {
         isRight = true;
         isLeft = false;
-    } else  {
+    } else  if (e.clientX === mouse.x){
         isRight = false;
         isLeft = false;
     }
@@ -71,7 +71,7 @@ function animate() {
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
-    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && (!(isKeyDownA && isKeyDownD) || (isRight === isLeft))) {
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD)) {
         color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
     } else {
         color = '#000'; // Otherwise, set the color back to black
@@ -87,7 +87,7 @@ function animate() {
   */
     // Create a new line at the top of the canvas
     var newLine = {
-        x: 800 + mouse.x/10,
+        x: mouse.x,
         y: canvas.height/8,
         color: color
     };
@@ -95,7 +95,7 @@ function animate() {
 
     if (newLine.color === '#0f0') {
         numGreenLines++;
-    } else {
+    } else if (newLine.color === '#000'){
         numBlackLines++;
     }
 
@@ -104,7 +104,7 @@ function animate() {
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        line.y += 2; // Update the vertical position of the line
+        line.y += 4; // Update the vertical position of the line
 
         if (i > 0) {
             var prevLine = lines[i - 1];
@@ -124,7 +124,7 @@ function animate() {
 
 
     // Remove the lines that have gone off the top of the canvas
-    if (lines.length > 700) {
+    if (lines.length > 1300) {
         lines.pop();
     }
 }
