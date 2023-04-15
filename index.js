@@ -5,7 +5,7 @@ canvas.height = window.innerHeight - 100;
 
 var lines = []; // Array to store the previous lines
 var mouse = {
-    x: 0,
+    x: 800,
     y: canvas.height / 2 // Start the mouse at the center of the canvas
 };
 var isLeft = false; // Flag to check if the mouse has moved left
@@ -14,7 +14,7 @@ var isKeyDownD = false;
 var isRight = false;
 var numBlackLines = 0; // Counter for black lines
 var numGreenLines = 0; // Counter for green lines
-var color = '#0f0'; // Set the initial color to black
+var color = '#A94600FF'; // Set the initial color to black
 
 
 // Add a div element to display the counter
@@ -79,14 +79,20 @@ function animate() {
     }
 
     // Update the counter with the current count of black and green lines
-    counter.innerHTML = "Black lines: " + numBlackLines + "<br>Green lines: " + numGreenLines + "<br>Sync%: " + ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
-
+    var pos = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
+    counter.innerHTML = "Black lines: " + numBlackLines + "<br>Green lines: " + numGreenLines + "<br>Sync%: " + pos;
+  /*  if (pos < 90) {
+        ctx.clear()
+    }
+*/
     // Create a new line at the top of the canvas
     var newLine = {
-        x: mouse.x,
+        x: 800 + mouse.x/10,
         y: canvas.height/8,
         color: color
     };
+
+    console.log(mouse.x, mouse.y);
 
     if (newLine.color === '#0f0') {
         numGreenLines++;
@@ -99,13 +105,13 @@ function animate() {
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        line.y += 4; // Update the vertical position of the line
+        line.y += 5; // Update the vertical position of the line
 
         if (i > 0) {
             var prevLine = lines[i - 1];
             ctx.beginPath();
-            ctx.lineTo(prevLine.x, prevLine.y);
             ctx.lineTo(line.x, line.y);
+            ctx.lineTo(prevLine.x, prevLine.y);
             ctx.lineJoin = 'round';
             ctx.lineCap = "round";
             ctx.strokeStyle = prevLine.color;
@@ -116,7 +122,6 @@ function animate() {
 
     // Draw the object once per frame
 
-    const ratio = numBlackLines / numGreenLines
 
 
     // Remove the lines that have gone off the top of the canvas
