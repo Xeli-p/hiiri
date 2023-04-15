@@ -5,7 +5,7 @@ canvas.height = window.innerHeight - 100;
 
 var lines = []; // Array to store the previous lines
 var mouse = {
-    x: 1200,
+    x: canvas.width / 2,
     y: canvas.height / 2 // Start the mouse at the center of the canvas
 };
 var isLeft = false; // Flag to check if the mouse has moved left
@@ -37,28 +37,19 @@ canvas.addEventListener('mousemove', function(e) {
 });
 
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'a' ) {
+    if (e.key.toLowerCase() === 'a' ){
         isKeyDownA = true;
     }
-    else if (e.key === 'd') {
+    else if (e.key.toLowerCase() === 'd') {
         isKeyDownD = true;
     }
 });
 
 document.addEventListener('keyup', function(e) {
-    if (e.key === 'a' ) {
-        isKeyDownA = false;
-    }
-});
-
-document.addEventListener('keyup', function(e) {
-    if ( e.key === 'd') {
+    if ( e.key.toLowerCase() === 'd') {
         isKeyDownD = false;
     }
-});
-
-document.addEventListener('keyup', function(event) {
-    if (event.code === 'KeyA') {
+    if (e.key.toLowerCase() === 'a') {
         isKeyDownA = false;
     }
 });
@@ -86,8 +77,10 @@ function animate() {
       }
   */
     // Create a new line at the top of the canvas
+
+    console.log(canvas.width)
     var newLine = {
-        x: 400 + mouse.x/2,
+        x: canvas.width/3 + mouse.x/6,
         y: canvas.height/8,
         color: color
     };
@@ -95,11 +88,11 @@ function animate() {
 
     if (newLine.color === '#0f0') {
         numGreenLines++;
-    } else if (newLine.color === '#000'){
+    } else {
         numBlackLines++;
     }
 
-    lines.unshift(newLine);
+     lines.unshift(newLine);
 
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
