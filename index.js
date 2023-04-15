@@ -76,7 +76,7 @@ function animate() {
     } else {
         color = '#000'; // Otherwise, set the color back to black
     }
-    
+
 
     // Update the counter with the current count of black and green lines
     var pos = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
@@ -104,7 +104,7 @@ function animate() {
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        line.y += 5; // Update the vertical position of the line
+        line.y += 2; // Update the vertical position of the line
 
         if (i > 0) {
             var prevLine = lines[i - 1];
