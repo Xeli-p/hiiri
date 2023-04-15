@@ -67,8 +67,7 @@ document.addEventListener('keyup', function(event) {
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    ctx.lineWidth = 20;
-    ctx.lineJoin = "round"; // Set the line join style to round
+    ctx.lineWidth = 40;
     ctx.strokeStyle = color; // Set the stroke color to the current color
 
     // Check if the 'a' or 'd' keys are pressed
@@ -113,7 +112,7 @@ function animate() {
             ctx.lineTo(line.x, line.y);
             ctx.lineTo(prevLine.x, prevLine.y);
             ctx.lineJoin = 'round';
-            ctx.lineCap = "round";
+            ctx.lineCap = 'round';
             ctx.strokeStyle = prevLine.color;
             ctx.stroke();
         }
