@@ -5,7 +5,7 @@ canvas.height = window.innerHeight - 100;
 
 var lines = []; // Array to store the previous lines
 var mouse = {
-    x: 800,
+    x: 1200,
     y: canvas.height / 2 // Start the mouse at the center of the canvas
 };
 var isLeft = false; // Flag to check if the mouse has moved left
@@ -87,7 +87,7 @@ function animate() {
   */
     // Create a new line at the top of the canvas
     var newLine = {
-        x: mouse.x,
+        x: 400 + mouse.x/2,
         y: canvas.height/8,
         color: color
     };
@@ -104,7 +104,7 @@ function animate() {
     // Draw the previous lines and the line between the current point and the minimum y value
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        line.y += 4; // Update the vertical position of the line
+        line.y += 3; // Update the vertical position of the line
 
         if (i > 0) {
             var prevLine = lines[i - 1];
