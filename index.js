@@ -82,17 +82,17 @@ function animate() {
     // Update the counter with the current count of black and green lines
     var pos = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
     counter.innerHTML = "Black lines: " + numBlackLines + "<br>Green lines: " + numGreenLines + "<br>Sync%: " + pos;
-  /*  if (pos < 90) {
-        ctx.clear()
-    }
-*/
+    /*  if (pos < 90) {
+          ctx.clear()
+      }
+  */
     // Create a new line at the top of the canvas
     var newLine = {
         x: 800 + mouse.x/10,
         y: canvas.height/8,
         color: color
     };
-    
+
 
     if (newLine.color === '#0f0') {
         numGreenLines++;
