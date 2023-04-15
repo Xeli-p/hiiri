@@ -76,8 +76,7 @@ function animate() {
     } else {
         color = '#000'; // Otherwise, set the color back to black
     }
-
-    console.log(isLeft, isRight)
+    
 
     // Update the counter with the current count of black and green lines
     var pos = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
