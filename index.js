@@ -78,7 +78,6 @@ function animate() {
   */
     // Create a new line at the top of the canvas
 
-    console.log(canvas.width)
     var newLine = {
         x: canvas.width/3 + mouse.x/6,
         y: canvas.height/8,
