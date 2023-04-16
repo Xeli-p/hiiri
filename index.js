@@ -15,6 +15,7 @@ let isLeft = false;
 let isKeyDownA = false;
 let isKeyDownD = false;
 let isRight = false;
+let syncP = 0;
 let numBlackLines = 0;
 let numGreenLines = 0;
 let color = '#0f0';
@@ -54,7 +55,9 @@ document.addEventListener('keydown', function(e) {
 
         ctx.fillText("Press spacebar to restart",  canvas.width/2.8 , canvas.height/2);
         if (!animationPaused) {
-            lines = []
+            lines = [];
+            numBlackLines = 0;
+            numGreenLines = 0;
             animate();
         }
     }
@@ -87,7 +90,7 @@ function animate() {
         color = '#000';
     }
 
-    let syncP = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
+    syncP = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
     counter.innerHTML =
         "Sync%: " + Math.round(syncP);
 
