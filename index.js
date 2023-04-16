@@ -5,7 +5,6 @@ canvas.height = window.innerHeight - 100;
 ctx.font = "50px Arial";
 ctx.fillStyle = "#FFD700";
 
-
 let lines = [];
 let mouse = {
     x: 1000,
@@ -16,13 +15,12 @@ let isKeyDownA = false;
 let isKeyDownD = false;
 let isRight = false;
 let syncP = 0;
-let numBlackLines = 0;
 let numGreenLines = 0;
+let numBlackLines = 0;
 let color = '#0f0';
 let animationPaused = true;
 
 ctx.fillText("Press spacebar to start", canvas.width/2.8, canvas.height/2);
-
 let counter = document.createElement('div');
 counter.id = 'counter';
 counter.style.fontSize = '50px';
@@ -90,7 +88,7 @@ function animate() {
         color = '#000';
     }
 
-    syncP = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
+    syncP = (numGreenLines/lines.length)*100;
     counter.innerHTML =
         "Sync%: " + Math.round(syncP);
 
@@ -116,7 +114,7 @@ function animate() {
         line.y += 1.5;
 
         if (i > 0) {
-            var prevLine = lines[i - 1];
+            let prevLine = lines[i - 1];
             ctx.beginPath();
             ctx.lineTo(line.x, line.y);
             ctx.lineTo(prevLine.x, prevLine.y);
@@ -124,11 +122,16 @@ function animate() {
             ctx.strokeStyle = line.color;
             ctx.stroke();
         }
-        prevLine = line;
     }
 
-    if (lines.length > 1300) {
-        lines.pop();
+    if (lines.length > 600) {
+
+        let deleted = lines.pop();
+        if (deleted.color === '#0f0') {
+            numGreenLines--;
+        } else {
+            numBlackLines--;
+        }
     }
 }
 
