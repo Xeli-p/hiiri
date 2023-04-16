@@ -1,28 +1,34 @@
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth - 30;
 canvas.height = window.innerHeight - 100;
+ctx.font = "50px Arial";
+ctx.fillStyle = "#FFD700";
 
-var lines = []; // Array to store the previous lines
-var mouse = {
-    x: canvas.width / 2,
-    y: canvas.height / 2 // Start the mouse at the center of the canvas
+
+let lines = [];
+let mouse = {
+    x: 1000,
+    y: canvas.height / 2
 };
-var isLeft = false; // Flag to check if the mouse has moved left
-var isKeyDownA = false; // Flags to check if the 'a' or 'd' keys are pressed
-var isKeyDownD = false;
-var isRight = false;
-var numBlackLines = 0; // Counter for black lines
-var numGreenLines = 0; // Counter for green lines
-var color = '#0f0'; // Set the initial color to green
+let isLeft = false;
+let isKeyDownA = false;
+let isKeyDownD = false;
+let isRight = false;
+let numBlackLines = 0;
+let numGreenLines = 0;
+let color = '#0f0';
+let animationPaused = true;
 
+ctx.fillText("Press spacebar to start", canvas.width/2.8, canvas.height/2);
 
-// Add a div element to display the counter
-var counter = document.createElement('div');
+let counter = document.createElement('div');
 counter.id = 'counter';
+counter.style.fontSize = '50px';
+counter.style.fontFamily = 'Arial'
 document.body.appendChild(counter);
 
-canvas.addEventListener('mousemove', function(e) {
+document.addEventListener('mousemove', function(e) {
     if (e.clientX < mouse.x) {
         isLeft = true;
         isRight = false;
@@ -43,6 +49,15 @@ document.addEventListener('keydown', function(e) {
     else if (e.key.toLowerCase() === 'd') {
         isKeyDownD = true;
     }
+    else if (e.code === 'Space') {
+        animationPaused = !animationPaused;
+
+        ctx.fillText("Press spacebar to restart",  canvas.width/2.8 , canvas.height/2);
+        if (!animationPaused) {
+            lines = []
+            animate();
+        }
+    }
 });
 
 document.addEventListener('keyup', function(e) {
@@ -56,30 +71,30 @@ document.addEventListener('keyup', function(e) {
 
 
 function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    ctx.lineWidth = 40;
-    ctx.strokeStyle = color; // Set the stroke color to the current color
 
-    // Check if the 'a' or 'd' keys are pressed
-    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD)) {
-        color = '#0f0'; // Change the color to green if the mouse has moved in the right direction
-    } else {
-        color = '#000'; // Otherwise, set the color back to black
+    if (animationPaused) {
+        return;
     }
 
+    requestAnimationFrame(animate);
 
-    // Update the counter with the current count of black and green lines
-    var pos = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
-    counter.innerHTML = "Black lines: " + numBlackLines + "<br>Green lines: " + numGreenLines + "<br>Sync%: " + pos;
-    /*  if (pos < 90) {
-          ctx.clear()
-      }
-  */
-    // Create a new line at the top of the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 40;
 
-    var newLine = {
-        x: canvas.width/3 + mouse.x/6,
+    if (((isKeyDownA && isLeft) || (isKeyDownD && isRight)) && !(isKeyDownA && isKeyDownD)) {
+        color = '#0f0';
+    } else {
+        color = '#000';
+    }
+
+    let syncP = ((2-(numBlackLines + numGreenLines) / numGreenLines )*100);
+    counter.innerHTML =
+        "Sync%: " + Math.round(syncP);
+
+    //
+    // new line
+    let newLine = {
+        x: canvas.width/2.8 + mouse.x/4,
         y: canvas.height/8,
         color: color
     };
@@ -91,34 +106,26 @@ function animate() {
         numBlackLines++;
     }
 
-     lines.unshift(newLine);
+    let size = lines.unshift(newLine);
 
-    // Draw the previous lines and the line between the current point and the minimum y value
-    for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        line.y += 3; // Update the vertical position of the line
+    for (let i = 0; i < size; i++) {
+        let line = lines[i];
+        line.y += 1.5;
 
         if (i > 0) {
             var prevLine = lines[i - 1];
             ctx.beginPath();
             ctx.lineTo(line.x, line.y);
             ctx.lineTo(prevLine.x, prevLine.y);
-            ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
-            ctx.strokeStyle = prevLine.color;
+            ctx.strokeStyle = line.color;
             ctx.stroke();
         }
-        prevLine = line; // Save the current line as the previous line for the next iteration
+        prevLine = line;
     }
 
-    // Draw the object once per frame
-
-
-
-    // Remove the lines that have gone off the top of the canvas
     if (lines.length > 1300) {
         lines.pop();
     }
 }
 
-animate();
