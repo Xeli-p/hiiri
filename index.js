@@ -16,15 +16,20 @@ let isKeyDownD = false;
 let isRight = false;
 let syncP = 0;
 let numGreenLines = 0;
-let numBlackLines = 0;
 let color = '#0f0';
 let animationPaused = true;
+let numDrawnLines = 0;
+let timeNow = performance.now()
+let timeAfter = 0;
+let fps = 0;
+let counterLines = 0;
 
 ctx.fillText("Press spacebar to start", canvas.width/2.8, canvas.height/2);
 let counter = document.createElement('div');
 counter.id = 'counter';
 counter.style.fontSize = '50px';
 counter.style.fontFamily = 'Arial'
+counter.style.color = '#ffcb00';
 document.body.appendChild(counter);
 
 document.addEventListener('mousemove', function(e) {
@@ -54,8 +59,10 @@ document.addEventListener('keydown', function(e) {
         ctx.fillText("Press spacebar to restart",  canvas.width/2.8 , canvas.height/2);
         if (!animationPaused) {
             lines = [];
-            numBlackLines = 0;
+            fps = 0;
+            counterLines = 0;
             numGreenLines = 0;
+            numDrawnLines = 0;
             animate();
         }
     }
@@ -89,25 +96,33 @@ function animate() {
     }
 
     syncP = (numGreenLines/lines.length)*100;
-    counter.innerHTML =
-        "Sync%: " + Math.round(syncP);
+    timeAfter = performance.now()
+    if ((timeAfter - timeNow) >= 500){
+        fps = counterLines/0.5;
+        timeNow = performance.now();
+        counterLines = 0;
+    }
+
+    let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+    counter.innerHTML = "Lines:&nbsp" + numDrawnLines + space + "Sync%:&nbsp" + Math.round(syncP) + space + "FPS:&nbsp" + fps;
+
 
     //
     // new line
     let newLine = {
-        x: canvas.width/2.8 + mouse.x/4,
+        x: canvas.width/3 + mouse.x/4,
         y: canvas.height/8,
         color: color
     };
 
-
     if (newLine.color === '#0f0') {
         numGreenLines++;
-    } else {
-        numBlackLines++;
     }
 
     let size = lines.unshift(newLine);
+
+    numDrawnLines++;
+    counterLines++;
 
     for (let i = 0; i < size; i++) {
         let line = lines[i];
@@ -124,14 +139,15 @@ function animate() {
         }
     }
 
-    if (lines.length > 600) {
+
+
+    if (lines.length > 1000) {
 
         let deleted = lines.pop();
         if (deleted.color === '#0f0') {
             numGreenLines--;
-        } else {
-            numBlackLines--;
         }
+
     }
 }
 
