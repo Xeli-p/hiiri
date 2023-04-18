@@ -77,7 +77,6 @@ document.addEventListener('keyup', function(e) {
     }
 });
 
-
 function animate() {
 
     if (animationPaused) {
@@ -104,13 +103,15 @@ function animate() {
     }
 
     let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-    counter.innerHTML = "Lines:&nbsp" + numDrawnLines + space + "Sync%:&nbsp" + Math.round(syncP) + space + "FPS:&nbsp" + fps;
-
+    counter.innerHTML =
+        "Lines:&nbsp" + numDrawnLines + space +
+        "Sync%:&nbsp" + Math.round(syncP) + space +
+        "FPS:&nbsp" + fps + space;
 
     //
     // new line
     let newLine = {
-        x: canvas.width/3 + mouse.x/4,
+        x: canvas.width/1.6 - mouse.x/4,
         y: canvas.height/8,
         color: color
     };
@@ -139,15 +140,12 @@ function animate() {
         }
     }
 
-
-
-    if (lines.length > 1000) {
+    if (size > 900) {
 
         let deleted = lines.pop();
         if (deleted.color === '#0f0') {
             numGreenLines--;
         }
-
     }
 }
 
