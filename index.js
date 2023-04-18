@@ -1,10 +1,10 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth - 60;
+canvas.width = window.innerWidth - 20;
 canvas.height = window.innerHeight - 100;
 let fontSize = Math.round(canvas.width/30);
 console.log(fontSize);
-ctx.font = `50px Arial`;
+ctx.font = `${fontSize}px Arial`;
 ctx.fillStyle = "#FFD700";
 
 let lines = [];
@@ -26,9 +26,8 @@ let timeAfter = 0;
 let fps = 0;
 let counterLines = 0;
 let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
-
-ctx.fillText("Press spacebar to start", canvas.width/2.8, canvas.height/2);
 let counter = document.createElement('div');
+
 counter.id = 'counter';
 counter.style.fontSize = `${fontSize}px`;
 counter.style.fontFamily = 'Arial'
@@ -59,7 +58,7 @@ document.addEventListener('keydown', function(e) {
     else if (e.code === 'Space') {
         animationPaused = !animationPaused;
 
-        ctx.fillText("Press spacebar to restart",  canvas.width/2.8 , canvas.height/2);
+        ctx.fillText("Press spacebar to restart",  canvas.width/3.2 , canvas.height/2);
         if (!animationPaused) {
             lines = [];
             fps = 0;
@@ -79,6 +78,8 @@ document.addEventListener('keyup', function(e) {
         isKeyDownA = false;
     }
 });
+
+ctx.fillText("Press spacebar to start", canvas.width/3.2, canvas.height/2);
 
 function animate() {
 
