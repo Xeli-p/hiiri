@@ -102,7 +102,7 @@ function animate() {
     timeAfter = performance.now()
     if ((timeAfter - timeNow) >= 500){
         fps = counterLines/0.5;
-        timeNow = performance.now();
+        timeNow = timeAfter;
         counterLines = 0;
     }
 
