@@ -2,7 +2,9 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth - 30;
 canvas.height = window.innerHeight - 100;
-ctx.font = "50px Arial";
+let fontSize = Math.round(canvas.width/30);
+console.log(fontSize);
+ctx.font = `50px Arial`;
 ctx.fillStyle = "#FFD700";
 
 let lines = [];
@@ -23,11 +25,12 @@ let timeNow = performance.now()
 let timeAfter = 0;
 let fps = 0;
 let counterLines = 0;
+let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 
 ctx.fillText("Press spacebar to start", canvas.width/2.8, canvas.height/2);
 let counter = document.createElement('div');
 counter.id = 'counter';
-counter.style.fontSize = '50px';
+counter.style.fontSize = `${fontSize}px`;
 counter.style.fontFamily = 'Arial'
 counter.style.color = '#ffcb00';
 document.body.appendChild(counter);
@@ -102,9 +105,9 @@ function animate() {
         counterLines = 0;
     }
 
-    let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
     counter.innerHTML =
-        "Lines:&nbsp" + numDrawnLines + space +
+        "drawn:&nbsp" + numDrawnLines + space +
+        "shown:&nbsp" + lines.length + space +
         "Sync%:&nbsp" + Math.round(syncP) + space +
         "FPS:&nbsp" + fps + space;
 
@@ -141,9 +144,7 @@ function animate() {
     }
 
     if (size > 900) {
-
-        let deleted = lines.pop();
-        if (deleted.color === '#0f0') {
+        if (lines.pop().color === '#0f0') {
             numGreenLines--;
         }
     }
