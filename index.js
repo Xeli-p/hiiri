@@ -106,8 +106,8 @@ function animate() {
     }
 
     counter.innerHTML =
-        "drawn:&nbsp" + numDrawnLines + space +
-        "shown:&nbsp" + lines.length + space +
+        "Drawn:&nbsp" + numDrawnLines + space +
+        "Shown:&nbsp" + lines.length + space +
         "Sync%:&nbsp" + Math.round(syncP) + space +
         "FPS:&nbsp" + fps + space;
 
