@@ -1,6 +1,6 @@
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth - 30;
+canvas.width = window.innerWidth - 60;
 canvas.height = window.innerHeight - 100;
 let fontSize = Math.round(canvas.width/30);
 console.log(fontSize);
@@ -25,7 +25,7 @@ let timeNow = performance.now()
 let timeAfter = 0;
 let fps = 0;
 let counterLines = 0;
-let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+let space = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
 
 ctx.fillText("Press spacebar to start", canvas.width/2.8, canvas.height/2);
 let counter = document.createElement('div');
